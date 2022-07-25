@@ -1,5 +1,6 @@
 package me.trqhxrd.snake.utils
 
+import me.trqhxrd.snake.game.Direction
 import java.awt.Point
 
 abstract class Locational(var x: Int = 0, var y: Int = 0) {
@@ -15,7 +16,13 @@ abstract class Locational(var x: Int = 0, var y: Int = 0) {
         this.y = y
     }
 
+    fun set(locational: Locational) = this.set(locational.x, locational.y)
+
     fun add(x: Int, y: Int) = this.set(this.x + x, this.y + y)
+
+    fun add(locational: Locational) = this.add(locational.x, locational.y)
+
+    fun add(direction: Direction) = this.add(direction.x, direction.y)
 
     fun point() = Point(this.x, this.y)
 

@@ -1,11 +1,13 @@
 package me.trqhxrd.snake.gui
 
+import me.trqhxrd.snake.game.Snake
+import me.trqhxrd.snake.handler.KeyHandler
 import org.apache.logging.log4j.kotlin.Logging
 import java.awt.Dimension
 import java.awt.Rectangle
 import javax.swing.JFrame
 
-class Window : JFrame(TITLE), Logging {
+class Window(val snake: Snake) : JFrame(TITLE), Logging {
 
     init {
         this.logger.debug("Creating new window.")
@@ -16,10 +18,12 @@ class Window : JFrame(TITLE), Logging {
         this.layout = null
         this.isResizable = false
 
-        val scene = Scene()
+        val scene = Scene(this.snake)
         scene.bounds = Rectangle(0, 0, WIDTH, HEIGHT)
         scene.isVisible = true
         this.add(scene)
+
+        this.addKeyListener(KeyHandler(this.snake))
 
         this.requestFocus()
         this.isVisible = true
