@@ -14,11 +14,12 @@ class GameThread(val snake: Snake) : Thread("game"), Logging {
     override fun run() {
         while (this.running) {
             this.snake.move()
+            this.snake.collisionHandler.check()
             sleep(200)
         }
     }
 
-    fun shutdownGracefully(){
+    fun shutdownGracefully() {
         this.running = false
     }
 }

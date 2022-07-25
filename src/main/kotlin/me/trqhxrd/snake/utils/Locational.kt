@@ -27,4 +27,6 @@ abstract class Locational(var x: Int = 0, var y: Int = 0) {
     fun point() = Point(this.x, this.y)
 
     fun pair() = this.x to this.y
+
+    fun sameLocation(locational: Locational) = locational.x == this.x && locational.y == this.y
 }
