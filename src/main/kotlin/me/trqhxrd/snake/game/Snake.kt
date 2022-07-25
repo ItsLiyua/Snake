@@ -2,6 +2,7 @@ package me.trqhxrd.snake.game
 
 import me.trqhxrd.snake.gui.Scene
 import me.trqhxrd.snake.handler.CollisionHandler
+import me.trqhxrd.snake.utils.HighScore
 import org.apache.logging.log4j.kotlin.Logging
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -28,7 +29,7 @@ class Snake : Logging {
             field = value
             this.logger.info("Score: $value Highscore: $highscore.")
         }
-    var highscore = 0
+    var highscore = HighScore.load()
     var collisionHandler = CollisionHandler(this)
     var waitToMove = false
 

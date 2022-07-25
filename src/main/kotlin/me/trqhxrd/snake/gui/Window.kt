@@ -2,6 +2,7 @@ package me.trqhxrd.snake.gui
 
 import me.trqhxrd.snake.game.Snake
 import me.trqhxrd.snake.handler.KeyHandler
+import me.trqhxrd.snake.handler.WindowHandler
 import org.apache.logging.log4j.kotlin.Logging
 import java.awt.Dimension
 import java.awt.Rectangle
@@ -24,6 +25,7 @@ class Window(val snake: Snake) : JFrame(TITLE), Logging {
         this.add(scene)
 
         this.addKeyListener(KeyHandler(this.snake))
+        this.addWindowListener(WindowHandler(this.snake))
 
         this.requestFocus()
         this.isVisible = true
