@@ -3,10 +3,7 @@ package me.trqhxrd.snake.gui
 import me.trqhxrd.snake.game.Snake
 import me.trqhxrd.snake.utils.Locational
 import org.apache.logging.log4j.kotlin.Logging
-import java.awt.Color
-import java.awt.Graphics
-import java.awt.Graphics2D
-import java.awt.RenderingHints
+import java.awt.*
 import javax.swing.JLabel
 
 class Scene(val snake: Snake) : JLabel(), Logging {
@@ -32,12 +29,14 @@ class Scene(val snake: Snake) : JLabel(), Logging {
         val PICKUP: Color = Color.RED
         val TAILS: Color = Color(51, 204, 51)
         val HEAD: Color = Color(0, 153, 0)
+
+        val FONT = Font("Arial", Font.BOLD, 20)
     }
 
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
         if (g !is Graphics2D) return
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF)
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
 
         // Background
         g.color = BACKGROUND
@@ -66,6 +65,12 @@ class Scene(val snake: Snake) : JLabel(), Logging {
         // Border
         g.color = GRID_BORDER
         g.drawRect(X_OFF, Y_OFF, GRID_WIDTH_PX, GRID_HEIGHT_PX)
+
+        // Score
+        g.color = Color.BLACK
+        g.font = FONT
+        g.drawString("Score: ${this.snake.score}", 5, 25)
+        g.drawString("Best: ${this.snake.highscore}", 685, 25)
 
         this.repaint()
 
