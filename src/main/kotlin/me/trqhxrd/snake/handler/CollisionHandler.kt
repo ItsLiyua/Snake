@@ -18,9 +18,9 @@ class CollisionHandler(val snake: Snake) : Logging {
 
     fun checkWall() {
         if (
-            snake.head.x <= 0 ||
+            snake.head.x < 0 ||
             snake.head.x >= Scene.GRID_WIDTH ||
-            snake.head.y <= 0 ||
+            snake.head.y < 0 ||
             snake.head.y >= Scene.GRID_HEIGHT
         ) snake.reset()
     }
