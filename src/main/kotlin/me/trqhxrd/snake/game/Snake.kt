@@ -4,11 +4,13 @@ import me.trqhxrd.snake.gui.Scene
 import me.trqhxrd.snake.handler.CollisionHandler
 import me.trqhxrd.snake.utils.HighScore
 import org.apache.logging.log4j.kotlin.Logging
+import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.CopyOnWriteArrayList
 
 class Snake : Logging {
     val head: Head
     val tails: MutableList<Tail>
+    val inputs = ArrayBlockingQueue<Direction>(20)
     var pickup: Pickup
         private set
     var direction = Direction.RIGHT
@@ -44,6 +46,8 @@ class Snake : Logging {
     }
 
     fun move() {
+        if (inputs.isNotEmpty()) this.direction = this.inputs.remove()
+
         if (this.tails.size >= 2) {
             this.tails
                 .subList(1, this.tails.size)
