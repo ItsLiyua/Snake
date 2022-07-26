@@ -35,6 +35,7 @@ class Snake : Logging {
     var highscore = HighScore.load()
     var collisionHandler = CollisionHandler(this)
     var waitToMove = false
+    var paused = false
 
     init {
         val center = Locational(Scene.GRID_WIDTH / 2, Scene.GRID_HEIGHT / 2)
@@ -44,7 +45,7 @@ class Snake : Logging {
         this.tails = CopyOnWriteArrayList()
         this.pickup = Pickup()
 
-        for (i in 0..1) this.tails.add(Tail(Locational(center, i, 0)))
+        this.setupTails(center)
 
         this.logger.debug("Created new snake.")
     }
@@ -66,8 +67,10 @@ class Snake : Logging {
     }
 
     fun reset() {
-        this.head.set(Scene.GRID_WIDTH / 2, Scene.GRID_HEIGHT / 2)
+        val center = Locational(Scene.GRID_WIDTH / 2, Scene.GRID_HEIGHT / 2)
+        this.head.set(Locational(center, 1, 0))
         this.tails.clear()
+        this.setupTails(center)
         this.logger.info("You died! Score: $score Highscore: $highscore.")
         this.score = 0
         this.direction = Direction.RIGHT
@@ -82,5 +85,9 @@ class Snake : Logging {
             if (this.tails.isNotEmpty()) this.tails[this.tails.size - 1]
             else this.head
         this.tails.add(Tail(last.x, last.y))
+    }
+
+    private fun setupTails(center: Locational) {
+        for (i in 0..1) this.tails.add(Tail(Locational(center, -i, 0)))
     }
 }

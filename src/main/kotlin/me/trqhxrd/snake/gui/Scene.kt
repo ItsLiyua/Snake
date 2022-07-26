@@ -33,6 +33,10 @@ class Scene(val snake: Snake) : JLabel(), Logging {
         val HEAD: Color = Color(0, 153, 0)
 
         val FONT = Font("Arial", Font.BOLD, 20)
+
+        const val PAUSE = "Game Paused. Press ESC to resume."
+        const val PAUSE_X = Window.WIDTH / 2 - 190
+        const val PAUSE_Y = Window.HEIGHT / 2 - 20
     }
 
     override fun paintComponent(g: Graphics?) {
@@ -73,6 +77,9 @@ class Scene(val snake: Snake) : JLabel(), Logging {
         g.font = FONT
         g.drawString("Score: ${this.snake.score}", 5, 25)
         g.drawString("Best: ${this.snake.highscore}", 685, 25)
+
+        // Pause text
+        if (this.snake.paused) g.drawString(PAUSE, PAUSE_X, PAUSE_Y)
 
         this.repaint()
 

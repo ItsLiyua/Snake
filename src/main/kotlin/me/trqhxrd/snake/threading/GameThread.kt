@@ -13,8 +13,10 @@ class GameThread(val snake: Snake) : Thread("game"), Logging {
 
     override fun run() {
         while (this.running) {
-            this.snake.move()
-            this.snake.collisionHandler.check()
+            if (!this.snake.paused) {
+                this.snake.move()
+                this.snake.collisionHandler.check()
+            }
             sleep(200)
         }
     }
