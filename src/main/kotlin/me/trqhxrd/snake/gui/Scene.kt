@@ -90,9 +90,7 @@ class Scene(val snake: Snake) : JLabel(), Logging {
     private fun fillCell(graphics: Graphics2D, color: Color, x: Int, y: Int) {
         val old = graphics.color!!
         graphics.color = color
-        graphics.fillRect(
-            x * CELL_SIZE + X_OFF, y * CELL_SIZE + Y_OFF, CELL_SIZE, CELL_SIZE
-        )
+        graphics.fillRect(x * CELL_SIZE + X_OFF, y * CELL_SIZE + Y_OFF, CELL_SIZE, CELL_SIZE)
         graphics.color = old
     }
 

@@ -36,17 +36,23 @@ class Snake : Logging {
     var collisionHandler = CollisionHandler(this)
     var waitToMove = false
     var paused = false
+    var suspendGameLoop = false
+
+    companion object {
+        val CENTER = Locational(Scene.GRID_WIDTH / 2, Scene.GRID_HEIGHT / 2)
+    }
 
     init {
-        val center = Locational(Scene.GRID_WIDTH / 2, Scene.GRID_HEIGHT / 2)
+        this.suspendGameLoop = true
         this.logger.debug("Creating new snake.")
 
-        this.head = Head(Locational(center, 1, 0))
+        this.head = Head(Locational(CENTER, 1, 0))
         this.tails = CopyOnWriteArrayList()
         this.pickup = Pickup()
 
-        this.setupTails(center)
+        this.setupTails(CENTER)
 
+        this.suspendGameLoop = false
         this.logger.debug("Created new snake.")
     }
 
@@ -67,13 +73,14 @@ class Snake : Logging {
     }
 
     fun reset() {
-        val center = Locational(Scene.GRID_WIDTH / 2, Scene.GRID_HEIGHT / 2)
-        this.head.set(Locational(center, 1, 0))
+        this.suspendGameLoop = true
+        this.head.set(Locational(CENTER, 1, 0))
         this.tails.clear()
-        this.setupTails(center)
+        this.setupTails(CENTER)
         this.logger.info("You died! Score: $score Highscore: $highscore.")
         this.score = 0
         this.direction = Direction.RIGHT
+        this.suspendGameLoop = false
     }
 
     fun regeneratePickup() {
@@ -88,6 +95,9 @@ class Snake : Logging {
     }
 
     private fun setupTails(center: Locational) {
-        for (i in 0..1) this.tails.add(Tail(Locational(center, -i, 0)))
+        for (i in 0..1) {
+            val tail = Tail(Locational(center, -i, 0))
+            this.tails.add(tail)
+        }
     }
 }
