@@ -37,6 +37,19 @@
         <main.class>me.trqhxrd.snake.MainKt</main.class>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Trqhxrd Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/Trqhxrd/Snake</url>
+        </repository>
+        <snapshotRepository>
+            <id>trqhxrd</id>
+            <name>Trqhxrd's snapshot repo</name>
+            <url>https://mvn.trqhxrd.de/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>mavenCentral</id>
