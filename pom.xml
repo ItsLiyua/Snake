@@ -6,10 +6,28 @@
 
     <artifactId>snake</artifactId>
     <groupId>me.trqhxrd</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>Snake</name>
+    <url>https://github.com/Trqhxrd/Snake</url>
+
+    <developers>
+        <developer>
+            <name>Trqhxrd</name>
+            <url>https://github.com/Trqhxrd</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>GPLv3</name>
+            <url>https://raw.githubusercontent.com/Trqhxrd/Snake/master/LICENSE</url>
+        </license>
+    </licenses>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
