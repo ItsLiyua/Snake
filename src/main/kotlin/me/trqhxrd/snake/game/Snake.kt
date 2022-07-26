@@ -28,8 +28,8 @@ class Snake : Logging {
     var score = 0
         set(value) {
             if (value > highscore) highscore = value
+            if (value > field) this.logger.info("Score: $value Highscore: $highscore.")
             field = value
-            this.logger.info("Score: $value Highscore: $highscore.")
         }
     var highscore = HighScore.load()
     var collisionHandler = CollisionHandler(this)
@@ -64,9 +64,9 @@ class Snake : Logging {
     fun reset() {
         this.head.set(Scene.GRID_WIDTH / 2, Scene.GRID_HEIGHT / 2)
         this.tails.clear()
+        this.logger.info("You died! Score: $score Highscore: $highscore.")
         this.score = 0
         this.direction = Direction.RIGHT
-        this.logger.info("You died! Score: $score Highscore: $highscore.")
     }
 
     fun regeneratePickup() {
