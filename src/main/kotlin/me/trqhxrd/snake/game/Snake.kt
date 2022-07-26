@@ -3,6 +3,7 @@ package me.trqhxrd.snake.game
 import me.trqhxrd.snake.gui.Scene
 import me.trqhxrd.snake.handler.CollisionHandler
 import me.trqhxrd.snake.utils.HighScore
+import me.trqhxrd.snake.utils.Locational
 import org.apache.logging.log4j.kotlin.Logging
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.CopyOnWriteArrayList
@@ -36,11 +37,14 @@ class Snake : Logging {
     var waitToMove = false
 
     init {
+        val center = Locational(Scene.GRID_WIDTH / 2, Scene.GRID_HEIGHT / 2)
         this.logger.debug("Creating new snake.")
 
-        this.head = Head(Scene.GRID_WIDTH / 2, Scene.GRID_HEIGHT / 2)
+        this.head = Head(Locational(center, 1, 0))
         this.tails = CopyOnWriteArrayList()
         this.pickup = Pickup()
+
+        for (i in 0..1) this.tails.add(Tail(Locational(center, i, 0)))
 
         this.logger.debug("Created new snake.")
     }

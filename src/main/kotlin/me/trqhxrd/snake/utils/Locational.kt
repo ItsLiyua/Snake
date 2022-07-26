@@ -3,9 +3,9 @@ package me.trqhxrd.snake.utils
 import me.trqhxrd.snake.game.Direction
 import java.awt.Point
 
-abstract class Locational(var x: Int = 0, var y: Int = 0) {
+open class Locational(var x: Int = 0, var y: Int = 0) {
 
-    constructor(other: Locational) : this(other.x, other.y)
+    constructor(other: Locational, xDiff: Int, yDiff: Int) : this(other.x + xDiff, other.y + yDiff)
 
     constructor(pair: Pair<Int, Int>) : this(pair.first, pair.second)
 

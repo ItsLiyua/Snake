@@ -7,6 +7,8 @@ class Tail(x: Int, y: Int) : Locational(x, y), Logging {
 
     var wait = true
 
+    constructor(loc: Locational) : this(loc.x, loc.y)
+
     init {
         this.logger.debug("Created new tail at x=$x,y=$y.")
     }
