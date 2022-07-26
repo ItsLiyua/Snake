@@ -1,6 +1,7 @@
 package me.trqhxrd.snake.gui
 
 import me.trqhxrd.snake.game.Snake
+import me.trqhxrd.snake.utils.FPS
 import me.trqhxrd.snake.utils.Locational
 import org.apache.logging.log4j.kotlin.Logging
 import java.awt.*
@@ -9,6 +10,7 @@ import javax.swing.JLabel
 class Scene(val snake: Snake) : JLabel(), Logging {
 
     private var renderIndex = 0L
+    private val fps = FPS(60)
 
     init {
         this.logger.debug("Created new scene.")
@@ -36,7 +38,7 @@ class Scene(val snake: Snake) : JLabel(), Logging {
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
         if (g !is Graphics2D) return
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF)
 
         // Background
         g.color = BACKGROUND
@@ -75,6 +77,7 @@ class Scene(val snake: Snake) : JLabel(), Logging {
         this.repaint()
 
         if (this.renderIndex++ % 10000 == 0L) this.logger.debug("Rendering...")
+        this.fps.update()
     }
 
     private fun fillCell(graphics: Graphics2D, color: Color, x: Int, y: Int) {
