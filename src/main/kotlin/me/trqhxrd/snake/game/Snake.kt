@@ -2,6 +2,7 @@ package me.trqhxrd.snake.game
 
 import me.trqhxrd.snake.gui.Scene
 import me.trqhxrd.snake.handler.CollisionHandler
+import me.trqhxrd.snake.threading.GameThread
 import me.trqhxrd.snake.utils.HighScore
 import me.trqhxrd.snake.utils.Locational
 import org.apache.logging.log4j.kotlin.Logging
@@ -16,15 +17,12 @@ class Snake : Logging {
         private set
     var direction = Direction.RIGHT
         set(value) {
-            if (value == Direction.UNDEFINED) return
-            if (this.waitToMove) return
             if (field.opposite() == value) {
                 this.logger.debug("Failed to set direction to $value. [0]")
                 return
             }
             this.logger.debug("Set direction from $field to $value.")
             field = value
-            this.waitToMove = true
         }
     var score = 0
         set(value) {
@@ -34,53 +32,57 @@ class Snake : Logging {
         }
     var highscore = HighScore.load()
     var collisionHandler = CollisionHandler(this)
-    var waitToMove = false
     var paused = false
-    var suspendGameLoop = false
 
     companion object {
-        val CENTER = Locational(Scene.GRID_WIDTH / 2, Scene.GRID_HEIGHT / 2)
+        val HEAD_START_LOCATION = Locational(Scene.GRID_WIDTH / 2 - 1, Scene.GRID_HEIGHT / 2)
+        const val INIT_SIZE = 2
     }
 
     init {
-        this.suspendGameLoop = true
         this.logger.debug("Creating new snake.")
 
-        this.head = Head(Locational(CENTER, 1, 0))
+        this.head = Head(Locational(HEAD_START_LOCATION, 1, 0))
         this.tails = CopyOnWriteArrayList()
         this.pickup = Pickup()
 
-        this.setupTails(CENTER)
+        this.setupTails()
 
-        this.suspendGameLoop = false
+        GameThread(this).start()
+
         this.logger.debug("Created new snake.")
+    }
+
+    private fun setupTails() {
+        this.tails.clear()
+
+        for (i in 1..INIT_SIZE) {
+            val tail = Tail(Locational(HEAD_START_LOCATION, -i, 0))
+            tail.wait = false
+            this.tails.add(tail)
+        }
     }
 
     fun move() {
         if (inputs.isNotEmpty()) this.direction = this.inputs.remove()
 
-        if (this.tails.size >= 2) {
-            this.tails
-                .subList(1, this.tails.size)
-                .reversed()
-                .forEachIndexed { index, tail -> tail.move(this.tails.reversed()[index + 1]) }
+        for (i in this.tails.indices.reversed()) {
+            val tail = this.tails[i]
+            when (i) {
+                0 -> tail.move(this.head)
+                else -> tail.move(this.tails[i - 1])
+            }
         }
 
-        if (tails.size >= 1) this.tails[0].move(this.head)
-
         this.head.add(this.direction)
-        this.waitToMove = false
     }
 
     fun reset() {
-        this.suspendGameLoop = true
-        this.head.set(Locational(CENTER, 1, 0))
-        this.tails.clear()
-        this.setupTails(CENTER)
+        this.head.set(HEAD_START_LOCATION)
+        this.direction = Direction.RIGHT
+        this.setupTails()
         this.logger.info("You died! Score: $score Highscore: $highscore.")
         this.score = 0
-        this.direction = Direction.RIGHT
-        this.suspendGameLoop = false
     }
 
     fun regeneratePickup() {
@@ -92,12 +94,5 @@ class Snake : Logging {
             if (this.tails.isNotEmpty()) this.tails[this.tails.size - 1]
             else this.head
         this.tails.add(Tail(last.x, last.y))
-    }
-
-    private fun setupTails(center: Locational) {
-        for (i in 0..1) {
-            val tail = Tail(Locational(center, -i, 0))
-            this.tails.add(tail)
-        }
     }
 }

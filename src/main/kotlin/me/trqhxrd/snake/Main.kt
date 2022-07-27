@@ -9,5 +9,4 @@ fun main() {
     logger("main").info("Hello World")
     val snake = Snake()
     Window(snake)
-    GameThread(snake).start()
 }

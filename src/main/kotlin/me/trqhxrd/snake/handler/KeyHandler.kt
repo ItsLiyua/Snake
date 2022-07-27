@@ -10,8 +10,8 @@ class KeyHandler(val snake: Snake) : KeyListener {
 
     override fun keyPressed(e: KeyEvent) {
         val dir = Direction.of(e.keyCode)
-        if (dir == Direction.UNDEFINED && e.keyCode == KeyEvent.VK_ESCAPE) this.snake.paused = !this.snake.paused
-        else this.snake.inputs.add(dir)
+        if (dir == null && e.keyCode == KeyEvent.VK_ESCAPE) this.snake.paused = !this.snake.paused
+        else if (dir != null) this.snake.inputs.add(dir)
     }
 
     override fun keyReleased(e: KeyEvent?) {}
