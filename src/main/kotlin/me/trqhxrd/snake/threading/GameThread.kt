@@ -5,14 +5,12 @@ import org.apache.logging.log4j.kotlin.Logging
 
 class GameThread(val snake: Snake) : Thread("game"), Logging {
 
-    private var running = true
-
     init {
         this.logger.debug("Created new GameThread")
     }
 
     override fun run() {
-        while (this.running) {
+        while (true) {
             if (!this.snake.paused) {
                 this.snake.move()
                 this.snake.collisionHandler.check()
@@ -21,7 +19,4 @@ class GameThread(val snake: Snake) : Thread("game"), Logging {
         }
     }
 
-    fun shutdownGracefully() {
-        this.running = false
-    }
 }
