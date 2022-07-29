@@ -19,11 +19,15 @@ class WindowHandler(val snake: Snake) : WindowListener, Logging {
     override fun windowClosed(p0: WindowEvent?) {
     }
 
-    override fun windowIconified(p0: WindowEvent?) {}
+    override fun windowIconified(p0: WindowEvent?) {
+        this.snake.paused = true
+    }
 
     override fun windowDeiconified(p0: WindowEvent?) {}
 
     override fun windowActivated(p0: WindowEvent?) {}
 
-    override fun windowDeactivated(p0: WindowEvent?) {}
+    override fun windowDeactivated(p0: WindowEvent?) {
+        this.snake.paused = true
+    }
 }
