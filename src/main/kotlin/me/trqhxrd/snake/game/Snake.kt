@@ -32,7 +32,7 @@ class Snake : Logging {
         }
     var highscore = HighScore.load()
     var collisionHandler = CollisionHandler(this)
-    var paused = false
+    var paused = true
 
     companion object {
         val HEAD_START_LOCATION = Locational(Scene.GRID_WIDTH / 2 - 1, Scene.GRID_HEIGHT / 2)
@@ -56,7 +56,9 @@ class Snake : Logging {
     private fun setupTails() {
         this.tails.clear()
 
-        for (i in 1..INIT_SIZE) {
+        // TODO: Dynamic length calculation
+
+        for (i in 0 until INIT_SIZE) {
             val tail = Tail(Locational(HEAD_START_LOCATION, -i, 0))
             tail.wait = false
             this.tails.add(tail)
