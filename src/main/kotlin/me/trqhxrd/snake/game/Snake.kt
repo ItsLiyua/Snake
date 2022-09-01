@@ -35,14 +35,14 @@ class Snake : Logging {
     var paused = true
 
     companion object {
-        val HEAD_START_LOCATION = Locational(Scene.GRID_WIDTH / 2 - 1, Scene.GRID_HEIGHT / 2)
+        val HEAD_START_LOCATION = Locational(Scene.GRID_WIDTH / 2 + 1, Scene.GRID_HEIGHT / 2)
         const val INIT_SIZE = 2
     }
 
     init {
         this.logger.debug("Creating new snake.")
 
-        this.head = Head(Locational(HEAD_START_LOCATION, 1, 0))
+        this.head = Head(HEAD_START_LOCATION)
         this.tails = CopyOnWriteArrayList()
         this.pickup = Pickup()
 
@@ -58,7 +58,7 @@ class Snake : Logging {
 
         // TODO: Dynamic length calculation
 
-        for (i in 0 until INIT_SIZE) {
+        for (i in 1..INIT_SIZE) {
             val tail = Tail(Locational(HEAD_START_LOCATION, -i, 0))
             tail.wait = false
             this.tails.add(tail)
